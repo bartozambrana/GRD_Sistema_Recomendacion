@@ -1,11 +1,11 @@
 # GRD_Sistema_Recomendacion
 
-*GESTIÓN DE RECURSOS DIGITALES
+### GESTIÓN DE RECURSOS DIGITALES
 
-UNIVERSIDAD DE GRANADA  (20/21)
+### UNIVERSIDAD DE GRANADA  (20/21)
 
-Autores black_nib
+## Autores ✒️
 
-    Bartolomé Zambrana
-    Pablo García López
-    Antonio Priego Raya
+* **Bartolomé Zambrana**
+* **Pablo García López**
+* **Antonio Priego Raya**
