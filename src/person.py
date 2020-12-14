@@ -42,12 +42,3 @@ def correlacionPearson(x,y):
 
     return numerador/denominador
 
-
-def main():
-    x = [3,3,3] #usuario para el que recomendamos
-    y = [1,5,6] #un usuario a probar.
-    print(correlacionPearson(x,y))
-
-    
-
-main()
