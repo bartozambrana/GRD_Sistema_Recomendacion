@@ -53,40 +53,108 @@ def leerCSV(csv_file, lista_peliculas):
     return matriz
                 
         
-def obtenerPerson(matriz_usuarios, lista_peliculas):
-    numero_usuario = 1
-    lista = []
-    listaPelicula = []
-    lista2 = []
-    resultados = []
-    for usuario in matriz_usuarios:
-        if(usuario[0] == numero_usuario):
-            lista.append(usuario[2])
-            listaPelicula.append(usuario[1])
-        else:
-            for pelicula in lista_peliculas:
-                for l in listaPelicula:
-                    if(l == pelicula[0]):
-                        lista2.append(pelicula[1])
-            coeficiente = correlacionPearson(lista, lista2)
-            resultados.append([usuario[0], coeficiente])
-            numero_usuario = usuario[0]
-            lista = []
-            listaPelicula = []
-            lista2 = []
-            lista.append(usuario[2])
-            listaPelicula.append(usuario[1])
+# def obtenerPerson(matriz_usuarios, lista_peliculas):
+#     numero_usuario = matriz_usuarios[0][0]
+#     lista = []
+#     listaPelicula = []
+#     lista2 = []
+#     resultados = []
+#     for usuario in matriz_usuarios:
+#         if(usuario[0] == numero_usuario):
+#             print("número de usuario",usuario[0])
+#             lista.append(usuario[2])
+#             listaPelicula.append(usuario[1])
+#         else:
+#             print("listaPelicula con la que compara" , listaPelicula)
+#             for pelicula in lista_peliculas:
+#                 print("tamaño listaPelicula: ", listaPelicula)
+#                 for l in listaPelicula:
+#                     print("lista comparacion",l)
+#                     if(l == pelicula[0]):
+#                         lista2.append(pelicula[1])
+#             	#print("películaID",pelicula[0])
+#                 #print("tamaño listaPelicula: ",listaPelicula)
+
+#             	#for l in listaPelicula:
+#                 #    print("lista comparación", l)
+#                 #    if(l == pelicula[0]):
+#                 #        lista2.append(pelicula[1])
+            
+#             print("Usuario ", usuario[0], ",",usuario[1],",",usuario[2])
+#             print("Lista2 ", lista2)
+#             print("Lista1 ", lista)
+#             print("ListaPelicula: ", listaPelicula)
+#             coeficiente = correlacionPearson(lista, lista2)
+#             resultados.append([usuario[0], coeficiente])
+#             numero_usuario = usuario[0]
+#             lista = []
+#             listaPelicula = []
+#             lista2 = []
+#             lista.append(usuario[2])
+#             listaPelicula.append(usuario[1])
+#             for l in lista_peliculas:
+#                 if( l == listaPelicula[0]):
+#                     lista2.append(l[1])
+            
         
-    escribirCSV(resultados)
-          
+#     escribirCSV(resultados)
+
+
+######################################################################################
+#                                                                                    #
+#   Usuario: matriz que continene en cada fila (idUsuario, idPelícula, Valoración)   #
+#                                                                                    #
+#   lista_peliculas: matriz que contiene (idPelicula, Valoración) del nuevo usuario. #
+#                                                                                    #
+######################################################################################
+def obtenerPearson(usuarios, lista_peliculas):
+    
+    #   VARIABLES NECESARIAS: seguimos la estrategia de un usuario anterior y el usuario actual.
+
+    usuario_anterior = usuarios[0][0] #usuario anterior.
+    lista_valoraciones = []           #lista de valoraciones para un usuario x de los registrados.
+    lista_peliculas_valoradas = []    #lista de idPelículas a las que ha valorado el usuario x
+    lista_valoraciones_usuario = []   #lista de valores del usuario del sistema, para las películas comunes.
+    resultado = []
+
+    lista_valoraciones.append(usuarios[0][2])
+    lista_peliculas_valoradas.append(usuarios[0][1])
+
+    #veamoslo para todos los usuarios, teniendo en cuanta el usuario anterior. Obteniendo el coeficiente cuando cambiemos de usuario.
+    for i in range(1,len(usuarios)):
+        if usuario_anterior == usuarios[i][0] : #comparamos el usuario anterior con el actual.
+            lista_valoraciones.append(usuarios[i][2])
+            lista_peliculas_valoradas.append(usuarios[i][1]) 
+        else : #usuario anterior distinto al actual, hay que volcar los datos, y tomar los datos de la fila actual, obteniendo la intersección de los elmentos del usuario.
+            for pelicula in lista_peliculas :
+                if pelicula[0] in lista_peliculas_valoradas :
+                    lista_valoraciones_usuario.append(pelicula[1])
+            
+            #obtenemos el coeficiente de pearson.
+            coeficiente = correlacionPearson(lista_valoraciones, lista_valoraciones_usuario)
+            resultado.append([usuarios[i][0],coeficiente])
+            
+            #limpiamos lista de valores.
+            lista_valoraciones = [] 
+            lista_valoraciones_usuario = []
+            lista_peliculas_valoradas = []
+
+            #Añadimos los valores de la fila actual.
+            usuario_anterior = usuarios[i][0]
+            lista_valoraciones.append(usuarios[i][2])
+            lista_peliculas_valoradas.append(usuarios[i][1])
+
+    escribirCSV(resultado)
+
+
 
 def escribirCSV(data):
-    with open('./../data/person.csv', 'w') as csvfile:
+    with open('./../data/pearson.csv', 'w') as csvfile:
         writer = csv.writer(csvfile, delimiter=',')
         writer.writerows(data)
 
 def main(): 
-    seed(123456)
+    seed(12345)
 
     peliculas = nFilasAleatorias(20,"./../data/movies.csv")   
     matriz_usuarios = leerCSV("./../data/ratings.csv", peliculas)
@@ -103,6 +171,6 @@ def main():
         valoracionUsuario[i][1] = valoracion
 
     
-    obtenerPerson(matriz_usuarios,valoracionUsuario)
+    obtenerPearson(matriz_usuarios,valoracionUsuario)
 
 main()

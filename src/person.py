@@ -14,7 +14,8 @@ import math
 
 def media(x):
     assert len(x) > 0
-    return float(sum(x))/len(x)
+    
+    return sum(x)/len(x)
 
 #Asumiendo que x e y
 def correlacionPearson(x,y):
