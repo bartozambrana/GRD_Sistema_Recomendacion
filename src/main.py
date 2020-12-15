@@ -42,7 +42,7 @@ def main():
     
     print("\t  ---------------------- \t \t")
     print("\t  PELICULAS RECOMENDADAS \t \t")
-    print("\t  ---------------------- \t \t\n\n")
+    print("\t  ---------------------- \t \t\n")
 
     for pelicula in recomendadas :
         print("\t -> ",pelicula)
