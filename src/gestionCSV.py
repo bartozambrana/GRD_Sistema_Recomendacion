@@ -48,20 +48,20 @@ def leerCSV(csv_file, lista_peliculas):
     resultado = [[None for c in range(3)] for f in range(len(ratings))]
 
     matriz = []
-    ignorar = 0
+    
 
-    for rating in ratings:
-        if(ignorar != 0):
-            aux = []
-            aux.append(int(rating[0])) 
-            aux.append(int(rating[1]))
-            aux.append(float(rating[2]))
+    for i in range(1,len(ratings)):
+        
+        aux = []
+        aux.append(int(ratings[i][0])) 
+        aux.append(int(ratings[i][1]))
+        aux.append(float(ratings[i][2]))
 
-            for pelicula in lista_peliculas:
-                if(aux[1] == pelicula[0]):
-                    matriz.append(aux)
-        else:
-           ignorar = ignorar + 1
+        for pelicula in lista_peliculas:
+            if(aux[1] == pelicula[0]):
+                matriz.append(aux)
+    
+           
  
     return matriz
                 

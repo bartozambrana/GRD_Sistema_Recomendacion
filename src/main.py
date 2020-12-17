@@ -16,8 +16,7 @@ from gestionCSV import nFilasAleatorias
 from gestionCSV import leerCSV
 
 
-def main(): 
-    
+def main():
     peliculas = nFilasAleatorias(20,"./../data/movies.csv")   
     matriz_usuarios = leerCSV("./../data/ratings.csv", peliculas)
     valoracionUsuario = [[None for c in range(2)] for f in range(20)]
