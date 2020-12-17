@@ -45,11 +45,7 @@ def leerCSV(csv_file, lista_peliculas):
     with open(csv_file) as csv_file_movies:
         ratings = list(csv.reader(csv_file_movies, delimiter=','))
     
-    resultado = [[None for c in range(3)] for f in range(len(ratings))]
-
     matriz = []
-    
-
     for i in range(1,len(ratings)):
         
         aux = []
